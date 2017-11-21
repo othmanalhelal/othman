@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Business 
+from django.shortcuts import get_object_or_404
 
 def business_create(request):
 	context = {
@@ -10,9 +11,13 @@ def business_create(request):
 	}
 	return render(request, "business_create.html", context)
 
-def business_detail(request):
+def business_detail(request, business_id):
+	object_list = Business.objects.all()
+	instance = get_object_or_404(Business, id=business_id)
 	context = {
 	"title":"Detail",
+	"instance":instance
+	"object_list": object_list,
 	}
 	return render(request, "business_detail.html", context)
 

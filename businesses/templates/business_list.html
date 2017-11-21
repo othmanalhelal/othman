@@ -6,6 +6,8 @@
 <body>
 	<h1>The Business {{title}} Page</h1>
 	{% for object in object_list %}
+		<a href="{{object.get_absolute_url}}">{{object.title}}</a>
+		{{object.title}}</a><br>
 		{{object.title}} <br>
 		{{object.content}} <br>
 		{{object.timestamp}} <br>

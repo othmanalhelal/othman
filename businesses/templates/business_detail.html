@@ -5,5 +5,12 @@
 </head>
 <body>
 	<h1>The Business {{title}} Page</h1>
+	{% for object in object_list %}
+		{{object.title}} <br>
+		{{object.content}} <br>
+		{{object.timestamp}} <br>
+		{{object.updated}} <br>
+		{{object.id}} <br>
+	{% endfor %}	
 </body>
 </html>
