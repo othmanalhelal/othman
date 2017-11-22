@@ -3,11 +3,17 @@ from __future__ import unicode_literals
 from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Business 
+from .forms import BusinessForm
 from django.shortcuts import get_object_or_404
 
 def business_create(request):
+	form = BusinessForm(request.BUSINESS or None)
+	if form.is_valid()
+		form.save()
+		return redirect("businesses:list")
 	context = {
 	"title": "Create",
+	"form": form,
 	}
 	return render(request, "business_create.html", context)
 
