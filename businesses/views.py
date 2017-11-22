@@ -36,8 +36,15 @@ def business_list(request):
 	}
 	return render(request, "business_list.html", context)
 
-def business_update(request):
+def business_update(request, business_id):
+	instance = get_object_or_404(Business, id=business_id)
+	form = BusinessForm(request.BUSINESS or None, instance = instance)
+	if form.is_valid():
+		form.save()
+		return redirect(instance.get_absolute_url())
 	context = {
+	"form":form,
+	"instance": instance
 	"title": "Update,"
 	}
 	return render(request, "business_update.html", context)
