@@ -10,6 +10,7 @@ def business_create(request):
 	form = BusinessForm(request.BUSINESS or None)
 	if form.is_valid()
 		form.save()
+		messages.success(requests, "Successfully Created!")
 		return redirect("businesses:list")
 	context = {
 	"title": "Create",
@@ -41,6 +42,7 @@ def business_update(request, business_id):
 	form = BusinessForm(request.BUSINESS or None, instance = instance)
 	if form.is_valid():
 		form.save()
+		messages.success(request, "Successfully Edited!")
 		return redirect(instance.get_absolute_url())
 	context = {
 	"form":form,
