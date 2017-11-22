@@ -51,10 +51,10 @@ def business_update(request, business_id):
 	}
 	return render(request, "business_update.html", context)
 
-def business_delete(request):
-	context = {
-	"title": "Delete"
-	}
-	return render(request, "business_delete.html", context)
+def business_delete(request, business_id):
+	instance = get_object_or_404(Business, id=business_id)
+	instance.delete()
+	messages.success(request, "Successfully Deleted!")
+	return redirect("businesses:list")
 
 # Create your views here.
