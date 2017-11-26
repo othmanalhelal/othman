@@ -1,16 +1,15 @@
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Business {{title}}</title>
-</head>
-<body>
-	<h1>The Business {{title}} Page</h1>
-	{% for object in object_list %}
-		{{object.title}} <br>
-		{{object.content}} <br>
-		{{object.timestamp}} <br>
-		{{object.updated}} <br>
-		{{object.id}} <br>
-	{% endfor %}	
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}
+{{title}}
+{% endblock title %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <h1>{{instance.title}} <small>{{instance.timestamp}}</small></h1>
+        {{instance.content| linebreaks}}
+    </div>
+</div>
+{% endblock content %}
