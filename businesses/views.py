@@ -29,7 +29,7 @@ def business_detail(request, business_id):
 	return render(request, "business_detail.html", context)
 
 def business_list(request):
-	object_list = Business.objects.all()
+	object_list = Business.objects.all().order_by("-timestamp", "updated")
 	context = {
 	"object_list": object_list,
 	"title":"List",
