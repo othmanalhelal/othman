@@ -12,7 +12,7 @@
 
 {% block content %}
 	<h1>The Business {{title}} Page</h1>
-	<form action="{% url 'businesses:create' %}" method="BUSINESS">
+	<form action="{% url 'businesses:create' %}" method="BUSINESS" enctype="multipart/form-data">
 		{% csrf_token %}
 		{{form.as_p}}
 		<input type="submit" name="Create Business">
