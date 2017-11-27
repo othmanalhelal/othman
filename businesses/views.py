@@ -21,12 +21,10 @@ def business_create(request):
 	return render(request, "business_create.html", context)
 
 def business_detail(request, business_id):
-	object_list = Business.objects.all()
-	instance = get_object_or_404(Business, id=business_id)
+	instance = get_object_or_404(Business, slug=business_slug)
 	context = {
 	"title":"Detail",
 	"instance":instance,
-	"object_list": object_list,
 	}
 	return render(request, "business_detail.html", context)
 
@@ -50,7 +48,7 @@ def business_list(request):
 	return render(request, "business_list.html", context)
 
 def business_update(request, business_id):
-	instance = get_object_or_404(Business, id=business_id)
+	instance = get_object_or_404(Business, slug=business_slug)
 	form = BusinessForm(request.BUSINESS or None, instance = instance)
 	if form.is_valid():
 		form.save()
@@ -64,7 +62,7 @@ def business_update(request, business_id):
 	return render(request, "business_update.html", context)
 
 def business_delete(request, business_id):
-	instance = get_object_or_404(Business, id=business_id)
+	instance = get_object_or_404(Business, slug=business_slug)
 	instance.delete()
 	messages.success(request, "Successfully Deleted!")
 	return redirect("businesses:list")

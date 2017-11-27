@@ -13,7 +13,7 @@
 	{% endif %}
 
 	<h1>The Business {{title}} Page</h1>
-	<form action="{% url 'businesses:update' %}" method="BUSINESS" enctype="multipart/form-data">
+	<form action="{% url 'businesses:update' business_slug=instance.slug %}" method="BUSINESS" enctype="multipart/form-data">
 	{% csrf_token %}
 	{{form.as_p}}
 	<input type="submit" name="Update Business">
