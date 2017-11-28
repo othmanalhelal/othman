@@ -25,6 +25,7 @@ def business_detail(request, business_id):
 	context = {
 	"title":"Detail",
 	"instance":instance,
+	"share_string": quote(instance.content)
 	}
 	return render(request, "business_detail.html", context)
 
