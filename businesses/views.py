@@ -6,9 +6,12 @@ from .models import Business
 from .forms import BusinessForm
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from urllib.parse import quote
+from django.http import Http404
 
 def business_create(request):
+	if not (request.user.is_staff or request.user.is_superuser):
+		raise Http404
 	form = BusinessForm(request.BUSINESS or None)
 	if form.is_valid():
 		form.save()
@@ -20,7 +23,7 @@ def business_create(request):
 	}
 	return render(request, "business_create.html", context)
 
-def business_detail(request, business_id):
+def business_detail(request, business_slug):
 	instance = get_object_or_404(Business, slug=business_slug)
 	context = {
 	"title":"Detail",
@@ -48,7 +51,9 @@ def business_list(request):
 	}
 	return render(request, "business_list.html", context)
 
-def business_update(request, business_id):
+def business_update(request, business_slug):
+	if not (request.user.is_staff or request.user.is_superuser):
+		raise Http404
 	instance = get_object_or_404(Business, slug=business_slug)
 	form = BusinessForm(request.BUSINESS or None, instance = instance)
 	if form.is_valid():
@@ -62,7 +67,7 @@ def business_update(request, business_id):
 	}
 	return render(request, "business_update.html", context)
 
-def business_delete(request, business_id):
+def business_delete(request, business_slug):
 	instance = get_object_or_404(Business, slug=business_slug)
 	instance.delete()
 	messages.success(request, "Successfully Deleted!")
