@@ -2,11 +2,13 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 
 class Business(models.Model):
+	author = models.ForeignKey(User, default=1)
 	title = models.CharField(max_length=255)
 	slug = models.SlugField(null=True)
-	image = models.ImageField(null=True, blank=True, upload_to="post_images")
+	image = models.ImageField(null=True, blank=True, upload_to="business_images")
 	content = models.TextField()
 	updated = models.DateTimeField(auto_now=True)
 	timestamp = models.DateTimeField(auto_now_add=True)
