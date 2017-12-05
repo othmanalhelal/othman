@@ -15,9 +15,9 @@
 		{{instance.content| linebreaks}} <br>
 
 		Author: {{instance.author.get_full_name}} <br>
-        <a href="https://www.facebook.com/sharer/sharer.php?u={{request.build_absolute_uri}}">
-            Share on Facebook
-        </a>
+		<a href="https://www.facebook.com/sharer/sharer.php?u={{request.build_absolute_uri}}">
+			Share on Facebook
+		</a>
 
 		<a href="https://twitter.com/home?status={{instance.content|truncatechars:35|urlify}}%20{{request.build_absolute_uri}}">
 			Share on Twitter

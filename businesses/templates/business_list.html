@@ -5,8 +5,14 @@
 {% endblock title %}
 
 {% block content %}
+
 	<h1>{{title}}</h1>
 	<div class="row">
+	<form action="" method="GET">
+	<input type="text" name='q' placeholder="Search posts" value="{{request.GET.q}}">
+		<input type="submit" value="Search">
+	</form>
+	
 	{% for object in object_list %}
 		<div class="col-sm-6 col-sm-offset-3">
 			<div class="thumbnail">
@@ -18,7 +24,7 @@
 					<h3><a href="{{ object.get_absolute_url }}">{{object.title}}</a><small> {{object.timestamp|timesince }} ago</small></h3>
 
 					{% if object.draft %}<h3>Draft</h3>{% endif %}
-        			{% if object.publish > today %}<h3>Future Business</h3>{% endif %}
+					{% if object.publish > today %}<h3>Future Business</h3>{% endif %}
 
 					<p>{{object.content|linebreaks|truncatechars:100}}</p>
 					<p><a href="{{ object.get_absolute_url }}" class="btn btn-primary" role="button">View</a></p>
