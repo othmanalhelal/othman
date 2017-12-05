@@ -8,13 +8,17 @@ from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from urllib.parse import quote
 from django.http import Http404
+from django.utils import timezone
+
 
 def business_create(request):
 	if not (request.user.is_staff or request.user.is_superuser):
 		raise Http404
 	form = BusinessForm(request.BUSINESS or None)
 	if form.is_valid():
-		form.save()
+		business = form.save(commit = False)
+		business.author = request.user
+		business.save()
 		messages.success(requests, "Successfully Created!")
 		return redirect("businesses:list")
 	context = {
@@ -25,6 +29,9 @@ def business_create(request):
 
 def business_detail(request, business_slug):
 	instance = get_object_or_404(Business, slug=business_slug)
+	if instance.publish>timezone.now().date() or instance .draft:
+        if not (request.user.is_staff or request.user.is_superuser):
+            raise Http404
 	context = {
 	"title":"Detail",
 	"instance":instance,
@@ -33,7 +40,11 @@ def business_detail(request, business_slug):
 	return render(request, "business_detail.html", context)
 
 def business_list(request):
-	object_list = Business.objects.all()
+	today = timezone.now().date()
+	object_list = Business.objects.filter(draft=False).filter(publish__lte=today)
+	if request.user.is_staff or request.user.is_superuser:
+		object_list = Business.objects.all()
+
 	paginator = Paginator(object_list, 5) # Show 5 contacts per page
 	page = request.GET.get('page')
 	try:

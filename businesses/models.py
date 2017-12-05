@@ -10,6 +10,8 @@ class Business(models.Model):
 	slug = models.SlugField(null=True)
 	image = models.ImageField(null=True, blank=True, upload_to="business_images")
 	content = models.TextField()
+	draft = models.BooleanField(default=False)
+	publish = models.DateField(auto_now=False, auto_now_add=False)
 	updated = models.DateTimeField(auto_now=True)
 	timestamp = models.DateTimeField(auto_now_add=True)
 
