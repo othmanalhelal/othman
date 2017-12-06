@@ -26,6 +26,8 @@
 		<a href="https://www.linkedin.com/shareArticle?mini=true&url={{request.build_absolute_uri}}&title={{instance.title|urlify}}&summary={{instance.content|truncatechars:35|urlify}}&source={{request.build_absolute_uri}}">
 		Share on Linkedin
 		</a>
+		<br>
+		{% include 'django_comments.html' %}
 	</div>
 </div>
 {% endblock content %}
