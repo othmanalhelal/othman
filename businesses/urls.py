@@ -7,4 +7,7 @@ urlpatterns = [
 	url(r'^list/$', views.business_list, name="list"),
 	url(r'^update/(?P<business_slug>[-\w]+)/$', views.business_update, name="update"),
 	url(r'^delete/(?P<business_slug>[-\w]+)/$', views.business_delete, name="delete"),
+	url(r'^signup/$', views.usersignup, name="signup"),
+	url(r'^login/$', views.userlogin, name="login"),
+	url(r'^logout/$', views.userlogout, name="logout"),
 	]

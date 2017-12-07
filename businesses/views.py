@@ -10,6 +10,8 @@ from urllib.parse import quote
 from django.http import Http404
 from django.utils import timezone
 from django.db.models import Q
+from .forms import UserSignup, UserLogin
+from django.contrib.auth import authenticate, login, logout
 
 
 def business_create(request):
@@ -123,5 +125,54 @@ def business_delete(request, business_slug):
 	instance.delete()
 	messages.success(request, "Successfully Deleted!")
 	return redirect("businesses:list")
+
+def usersignup(request):
+    context = {}
+    form = UserSignup()
+    context['form'] = form
+    if request.method == 'BUSINESS':
+        form = UserSignup(request.BUSINESS)
+        if form.is_valid():
+            user = form.save()
+            username = user.username
+            password = user.password
+
+            user.set_password(password)
+            user.save()
+
+            auth_user = authenticate(username=username, password=password)
+            login(request, auth_user)
+
+            return redirect("businesses:list")
+        messages.error(request, form.errors)
+        return redirect("posts:signup")
+    return render(request, 'signup.html', context)
+
+    def userlogin(request):
+    context = {}
+    form = UserLogin()
+    context['form'] = form
+    if request.method == 'BUSINESS':
+        form = UserLogin(request.BUSINESS)
+        if form.is_valid():
+
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+
+            auth_user = authenticate(username=username, password=password)
+            if auth_user is not None:
+                login(request, auth_user)
+                return redirect('businesses:list')
+
+            messages.error(request, "Wrong username/password combination. Please try again.")
+            return redirect("businesses:login")
+        messages.error(request, form.errors)
+        return redirect("businesses:login")
+    return render(request, 'login.html', context)
+
+    def userlogout(request):
+    	logout(request)
+    	return redirect("businesses:list")
+	
 
 # Create your views here.
