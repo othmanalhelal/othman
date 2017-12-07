@@ -33,10 +33,18 @@ def business_detail(request, business_slug):
 	if instance.publish>timezone.now().date() or instance .draft:
 		if not (request.user.is_staff or request.user.is_superuser):
 			raise Http404
+	if request.user.is_authenticated():
+        if Like.objects.filter(post=instance, user=request.user).exists():
+            liked = True
+        else:
+            liked = False
+    business_like_count = instance.like_set.all().count()
 	context = {
 	"title":"Detail",
 	"instance":instance,
 	"share_string": quote(instance.content),
+	"business_like_count":business_like_cout,
+	"liked:liked,"
 	}
 	return render(request, "business_detail.html", context)
 
@@ -93,6 +101,22 @@ def business_update(request, business_slug):
 	"title": "Update"
 	}
 	return render(request, "business_update.html", context)
+
+def ajax_like(request, post_id):
+    business_object = Business.objects.get(id=business_id)
+    new_like, created = Like.objects.get_or_create(user=request.user, business=business_object)
+
+    if created:
+        action="like"
+    else:
+        new_like.delete()
+        action="unlike"
+
+    business_like_count = business_object.like_set.all().count()
+    response = {
+        "action": action,
+    }
+    return JsonResponse(response, safe=False)	
 
 def business_delete(request, business_slug):
 	instance = get_object_or_404(Business, slug=business_slug)

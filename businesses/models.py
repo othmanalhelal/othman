@@ -18,6 +18,11 @@ class Business(models.Model):
 	class Meta:
 		ordering = ["-timestamp", "-updated"]
 
+	class Like(models.Model):
+    	user = models.ForeignKey(User)
+    	post = models.ForeignKey(Post)
+    	created = models.DateTimeField(auto_now_add=True)
+    	
 	def __str__(self):
 		return self.title
 
